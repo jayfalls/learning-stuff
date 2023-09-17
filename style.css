@@ -90,11 +90,27 @@
     left: 8px;
 }
 /* Alternative style if the todo is checked */
-.todo-list-checked{
+.todo-list li.todo-item-checked{
     color: #555;
     text-decoration: line-through;
 }
 /* Checked icon left of the task */
-.todo-list li.todo-list-checked::before{
+.todo-list li.todo-item-checked::before{
     background-image: url(images/checked.png);
+}
+/* Delete icon right of the task */
+.delete-todo-button{
+    position: absolute;
+    right: 0;
+    top: 5px;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    color: #555;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+}
+.delete-todo-button:hover{
+    background: #edeef0;
 }
