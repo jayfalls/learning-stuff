@@ -8,7 +8,10 @@ const todoList = document.querySelector(".todo-list");
 
 
 // INITIALISATION
+///Clickable Objects
 todoList.addEventListener("click", modifyTodoItem, false);
+
+///Populate
 loadData()
 
 
@@ -55,8 +58,7 @@ function checkAddTodo(){
 
 /// Modifying
 function modifyTodoItem(event){
-    const clickedTarget = event.target
-    console.log(clickedTarget.tagName)
+    const clickedTarget = event.target;
     switch(clickedTarget.tagName){
         case "LI":
             clickedTarget.classList.toggle("todo-item-checked");
