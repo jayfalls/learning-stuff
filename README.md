@@ -1,1 +1,1 @@
-# gambling_in_python
+Learning some python with slots ya
