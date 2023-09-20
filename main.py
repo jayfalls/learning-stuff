@@ -1,4 +1,6 @@
+import asyncio
 import random
+import sys
 
 
 # VARIABLES
@@ -60,17 +62,7 @@ def reorder_collums(drawn_collumns: list[list[str]]) -> list[list[str]]:
         final_lines.append(single_line)
     return final_lines
 
-## Draws and prints out the slots
-def printout_slots(final_lines: list[list[str]]) -> list[list[str]]: 
-    for line in final_lines:
-        for index, symbol in enumerate(line): # Enumerate outputs variables for both index and items in a list
-            if index == len(line) - 1:
-                print(symbol, end="")
-                continue
-            print(symbol, end=" | ")
-        print() # Can also use "\n" to print out to next line
-
-def check_winnings(final_lines: [list[list[str]]], num_lines: int, bet: int) -> int:
+async def check_winnings(final_lines: [list[list[str]]], num_lines: int, bet: int) -> int:
     winnings: int = 0
     # Counts starting from the first line
     for line in range(num_lines):
@@ -85,13 +77,33 @@ def check_winnings(final_lines: [list[list[str]]], num_lines: int, bet: int) -> 
     
     return winnings
 
+## Draws and prints out the slots
+async def printout_slots(final_lines: list[list[str]]) -> None: 
+    for line in final_lines:
+        for index, symbol in enumerate(line): # Enumerate outputs variables for both index and items in a list
+            if index == len(line) - 1:
+                print(symbol, end="")
+                continue
+            print(symbol, end=" | ")
+            sys.stdout.flush()  # Force immediate display
+            await asyncio.sleep(random.uniform(0.5, 1.5))
+        print() # Can also use "\n" to print out to next line
+        await asyncio.sleep(1)
+
+async def spin_user_animation(final_lines: [list[list[str]]], num_lines: int, bet: int) -> int:
+    checking_winnings = asyncio.create_task(check_winnings(final_lines, num_lines, bet))
+    printing_out = asyncio.create_task(printout_slots(final_lines))
+    winnings: int = await checking_winnings
+    await printing_out
+    return winnings
+    
+
 ## Spin the slots
-def spin_slots(num_lines: int, bet: int) -> int:
+async def spin_slots(num_lines: int, bet: int) -> int:
     all_symbols: list[str] = get_all_symbols(symbol_counts)
     drawn_collumns: list[list[str]] = draw_random_symbols(ROWS, COLLUMNS, all_symbols)
     final_lines: list[list[str]] = reorder_collums(drawn_collumns)
-    printout_slots(final_lines)
-    winnings = check_winnings(final_lines, num_lines, bet)
+    winnings: int = await spin_user_animation(final_lines, num_lines, bet)
     return winnings
 
 
@@ -176,11 +188,11 @@ def get_input() -> tuple():
 
 
 # PROGRAM START
-def start() -> None:
+async def start() -> None:
     num_lines, bet = get_input()
-    winnings: int = spin_slots(num_lines, bet)
+    winnings = await spin_slots(num_lines, bet)
     
     print(f"You've won ${winnings}!")
     
 
-start()
+asyncio.run(start())
