@@ -9,7 +9,7 @@ MIN_BET: int = 1
 
 ## Spin Parameters
 ROWS: int = 3
-COLLUMS: int = 3
+COLLUMNS: int = 3
 ### Spin Odds
 symbol_counts: dict[str, int] = {
     "A": 2,
@@ -26,30 +26,16 @@ symbol_values: dict[str, int] = {
 
 
 # SPINS
-def check_winnings(final_lines: [list[list[str]]], num_lines: int, bet: int) -> int:
-    winnings: int = 0
-    #10 Counts starting from the first line
-    for line in range(num_lines):
-        symbol: str = final_lines[line][0]
-        single_line: list[str] = final_lines[line]
-        for symbol_index in range(len(single_line)):
-            symbol_to_check = single_line[symbol_index]
-            if symbol != symbol_to_check:
-                break
-        else:
-            winnings += symbol_values[symbol] * bet
-    
-    return winnings
-
-        
-def get_slot_machine_spin(num_rows: int, num_collumns: int, symbol_counts: dict[str, int]) -> list[list[str]]:
+def get_all_symbols(symbol_counts: dict[str, int]) -> list[str]:
     all_symbols: list[str] = []
     # Get a list of every possible symbol
     for symbol, symbol_count in symbol_counts.items(): # Seperate the key, value pairs into their own variables
         # _ for no variable
         for _ in range(symbol_count):
             all_symbols.append(symbol)
-    
+    return all_symbols
+
+def draw_random_symbols(num_rows: int, num_collumns: int, all_symbols: list[str]) -> list[list[str]]:
     # Randomly pull from all_symbols to populate the collums
     collumns: list[list[str]] = []
     for _ in range(num_collumns):
@@ -64,21 +50,49 @@ def get_slot_machine_spin(num_rows: int, num_collumns: int, symbol_counts: dict[
     
     return collumns
 
-# Changes the orientation of collumns and rows around and prints it out
-def print_slot_machine(collumns: list[list[str]]) -> list[list[str]]: 
+## Changes the orientation of collumns and rows around
+def reorder_collums(drawn_collumns: list[list[str]]) -> list[list[str]]:
     final_lines: list[list[str]] = []
-    for row_number in range(len(collumns[0])):
+    for row_number in range(len(drawn_collumns[0])):
         single_line: list[str] = []
-        for index, collumn in enumerate(collumns): # Enumerate outputs variables for both index and items in a list
+        for collumn in drawn_collumns: 
             single_line.append(collumn[row_number])
-            if index == len(collumns) - 1:
-                print(collumn[row_number], end="")
-                continue
-            print(collumn[row_number], end=" | ")
         final_lines.append(single_line)
-        print() # Can also use "\n" to print out to next line
-    
     return final_lines
+
+## Draws and prints out the slots
+def printout_slots(final_lines: list[list[str]]) -> list[list[str]]: 
+    for line in final_lines:
+        for index, symbol in enumerate(line): # Enumerate outputs variables for both index and items in a list
+            if index == len(line) - 1:
+                print(symbol, end="")
+                continue
+            print(symbol, end=" | ")
+        print() # Can also use "\n" to print out to next line
+
+def check_winnings(final_lines: [list[list[str]]], num_lines: int, bet: int) -> int:
+    winnings: int = 0
+    # Counts starting from the first line
+    for line in range(num_lines):
+        symbol: str = final_lines[line][0]
+        single_line: list[str] = final_lines[line]
+        for symbol_index in range(len(single_line)):
+            symbol_to_check = single_line[symbol_index]
+            if symbol != symbol_to_check:
+                break
+        else:
+            winnings += symbol_values[symbol] * bet
+    
+    return winnings
+
+## Spin the slots
+def spin_slots(num_lines: int, bet: int) -> int:
+    all_symbols: list[str] = get_all_symbols(symbol_counts)
+    drawn_collumns: list[list[str]] = draw_random_symbols(ROWS, COLLUMNS, all_symbols)
+    final_lines: list[list[str]] = reorder_collums(drawn_collumns)
+    printout_slots(final_lines)
+    winnings = check_winnings(final_lines, num_lines, bet)
+    return winnings
 
 
 # INPUT
@@ -142,9 +156,8 @@ def get_bet() -> int:
         
     return bet_amount
 
-
-# PROGRAM START
-def main():
+## Main Input
+def get_input() -> tuple():
     bet: int = 0
     balance: int = get_deposit()
     num_lines: int = get_number_of_lines()
@@ -158,12 +171,16 @@ def main():
         break
 
     print(f"You are betting ${bet} on {num_lines}. Total bet is: ${total_bet}")
-    
-    inverted_slots: list[list[str]] = get_slot_machine_spin(ROWS,COLLUMS,symbol_counts)
-    final_lines: list[list[str]] = print_slot_machine(inverted_slots)
-    winnings: int = check_winnings(final_lines, num_lines, bet)
+
+    return (num_lines, bet)
+
+
+# PROGRAM START
+def start() -> None:
+    num_lines, bet = get_input()
+    winnings: int = spin_slots(num_lines, bet)
     
     print(f"You've won ${winnings}!")
     
 
-main()
+start()
