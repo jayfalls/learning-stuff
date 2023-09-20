@@ -88,7 +88,7 @@ async def printout_slots(final_lines: list[list[str]]) -> None:
             sys.stdout.flush()  # Force immediate display
             await asyncio.sleep(random.uniform(0.5, 1.5))
         print() # Can also use "\n" to print out to next line
-        await asyncio.sleep(1)
+        await asyncio.sleep(1)  
 
 async def spin_user_animation(final_lines: [list[list[str]]], num_lines: int, bet: int) -> int:
     checking_winnings = asyncio.create_task(check_winnings(final_lines, num_lines, bet))
