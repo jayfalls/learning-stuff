@@ -1,2 +1,2 @@
 # mailing_client
-Learning smtp
+Learning smtp and encryption
