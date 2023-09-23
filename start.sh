@@ -3,4 +3,5 @@ source env/bin/activate   # Activate the virtual environment
 
 pip install -r requirements.txt
 
-xterm -e "python app/mailing_client.py"
+cd app
+python mailing_client.py
