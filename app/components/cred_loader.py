@@ -9,7 +9,18 @@ import re
 CRED_ENV: str = "MAILSTOREDLIST"
 CRED_PATH: str = ".settings/mailstored"
 CRED_KEY_PATH: str = ".settings/multi"
+### Errors
+READ_PERMISSION_ERROR_RESPONSE: str = "PermissionError with the file structure. Reinstall the program in a place where it can access its files.\nOr run as sudo (NOT RECOMMENDED)."
 
+
+# PROGRAM CONTROL
+def stop_program() -> None:
+    sys.exit()
+
+def handlePermissionError() -> None:
+    print(READ_PERMISSION_ERROR_RESPONSE)
+    stop_program()
+    
 
 # USER INFO
 ## Encryption Key
@@ -80,23 +91,22 @@ def get_password():
     password = input("Enter your password: ")
     return password
 
-def get_user_credentials() -> None:
+def get_user_credentials() -> tuple:
     email: str = get_email()
     password: str = get_password()
     create_key()
     store_credentials(email, password)
+    return load_credentials()
 
 
-# INITIALISATION
-def init() -> None:
+# RETRIEVE CREDENTIALS
+def credentials() -> tuple:
     try:
         with open(CRED_KEY_PATH, 'r') as file:
             cred_unstored()
-            print(load_credentials())
-            return
+            return load_credentials()
     except FileNotFoundError:
-        get_user_credentials()
-        return
+        return get_user_credentials()
     except PermissionError:
         handlePermissionError()
     except Exception as e:

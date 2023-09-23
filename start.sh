@@ -4,4 +4,4 @@ source env/bin/activate   # Activate the virtual environment
 pip install -r requirements.txt
 
 cd app
-python mailing_client.py
+python encryption.py

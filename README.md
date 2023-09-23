@@ -1,2 +1,2 @@
-# mailing_client
-Learning smtp and encryption
+# Encryption & Modules Learning in Py
+Learning encryption & modules
