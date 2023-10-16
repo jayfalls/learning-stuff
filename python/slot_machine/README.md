@@ -1,0 +1,1 @@
+Learning some python with slots ya
