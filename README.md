@@ -2,11 +2,11 @@
 Just a repository with all my projects used for learning
 
 ## Javascript
-[todo-app](./js/todo_app/README.md)
+- [todo-app](./js/todo_app)
 
 ## Python
-[slot_machine](./python/slot_machine/README.md)
-[encryption](./python/encryption/README.md)
+- [slot_machine](./python/slot_machine)
+- [encryption](./python/encryption)
 
 ## Rust
-[cli_todo](./rust/cli_todo/README.md)
+- [cli_todo](./rust/cli_todo)
