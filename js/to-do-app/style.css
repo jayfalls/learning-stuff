@@ -1,0 +1,116 @@
+*{
+    margin: 0%;
+    padding: 0%;
+    font-family: 'Poppins', sans-serif;
+    box-sizing: border-box;
+}
+
+
+.background{
+    width: 100%;
+    min-height: 100vh;
+    background: linear-gradient(135deg, #153677, #4e085f);
+    padding: 10px;
+}
+
+
+/* To-Do Panel Styles */ 
+.todo-panel{
+    width: 100%;
+    max-width: 540px;
+    background: #fff;
+    margin: 100px auto 20px;
+    padding: 40px 30px 70px;
+    border-radius: 16px;
+}
+/* Make the title blue and align the logo with text */
+.todo-app-title{
+    color: #002765;
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px; 
+}
+/* Make the logo image smaller */
+.todo-app-icon{
+    width: 30px;
+    margin-left: 10px;
+}
+
+/* To-Do Creator Styles */
+.todo-creator{
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background: #edeef0;
+    border-radius: 30px;
+    padding-left: 20px;
+    margin-bottom: 25px;
+}
+/* Give text input box a borderless rounded look */
+.todo-descriptor-input{
+    flex: 1;
+    border: none;
+    outline: none;
+    background: transparent;
+    padding: 10px;
+    font-weight: 14px;
+}
+/* Give text input box a borderless rounded look */
+.add-todo-button{
+    border: none;
+    outline: none;
+    padding: 16px 50px;
+    background: #ff5945;
+    color: white;
+    font-size: 16px;
+    cursor: pointer;
+    border-radius: 40px;
+}
+
+/* To-Do List Styles */ 
+.todo-list li{
+    list-style: none;
+    font-size: 17px;
+    padding: 12px 8px 12px 50px;
+    user-select: none;
+    cursor: pointer;
+    position: relative;
+}
+/* Unchecked icon left of the task */
+.todo-list li::before{
+    content: '';
+    position: absolute;
+    height: 28px;
+    width: 28px;
+    border-radius: 50%;
+    background-image: url(images/unchecked.png);
+    background-size: cover;
+    background-position: center;
+    top: 12px;
+    left: 8px;
+}
+/* Alternative style if the todo is checked */
+.todo-list li.todo-item-checked{
+    color: #555;
+    text-decoration: line-through;
+}
+/* Checked icon left of the task */
+.todo-list li.todo-item-checked::before{
+    background-image: url(images/checked.png);
+}
+/* Delete icon right of the task */
+.delete-todo-button{
+    position: absolute;
+    right: 0;
+    top: 5px;
+    width: 40px;
+    height: 40px;
+    font-size: 22px;
+    color: #555;
+    line-height: 40px;
+    text-align: center;
+    border-radius: 50%;
+}
+.delete-todo-button:hover{
+    background: #edeef0;
+}
