@@ -36,7 +36,8 @@ class View:
     @staticmethod
     def display_data(data: list[str]) -> None:
         """
-        Displays the data by printing each item in the given list with a delay of 0.2 seconds between each item
+        Displays the data by printing each item in the given list with a delay of 
+        0.2 seconds between each item
 
         Parameters:
             data (list[str]): A list of strings containing the data to be displayed
@@ -52,19 +53,19 @@ class Controller:
     """
     A class that handles the model and view
     """
-    def __init__(self, model: Model, view: View) -> None:
+    def __init__(self, data_processer: Model, user_output: View) -> None:
         """
         Initializes a new instance of the class
 
         Parameters:
-            model (model): The model object
-            view (view): The view object
+            data_processer (Model): An instance of the Model class
+            user_output (View): An instance of the View class
 
         Returns:
             None
         """
-        self.model = model
-        self.view = view
+        self.data_processer = data_processer
+        self.user_output = user_output
 
     def run(self) -> None:
         """
@@ -76,10 +77,10 @@ class Controller:
         Returns:
             None
         """
-        data = self.model.processed_data()
-        self.view.display_data(data)
+        data = self.data_processer.processed_data()
+        self.user_output.display_data(data)
 
-model = Model()
-view = View()
-controller = Controller(model, view)
+processer = Model()
+output = View()
+controller = Controller(processer, output)
 controller.run()
